@@ -18,4 +18,9 @@ class Portfolio:
                                     ids=[str(uuid.uuid4())])
 
     def query_links(self, skills):
+        # Ensure skills is a list of strings
+        if isinstance(skills, str):
+            skills = [skills]
+        elif not isinstance(skills, list):
+            skills = [str(skills)]
         return self.collection.query(query_texts=skills, n_results=2).get('metadatas', [])
