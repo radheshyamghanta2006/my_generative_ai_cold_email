@@ -19,9 +19,15 @@ def create_streamlit_app(llm, portfolio, clean_text):
             jobs = llm.extract_jobs(data)
             for job in jobs:
                 skills = job.get('skills', [])
-                # Ensure skills is a list
-                if not isinstance(skills, list):
-                    skills = [str(skills)] if skills else []
+                # Debug: Show what skills looks like
+                st.write(f"Debug - Skills type: {type(skills)}, Value: {skills}")
+                # Ensure skills is a list of strings
+                if not skills:
+                    skills = []
+                elif not isinstance(skills, list):
+                    skills = [str(skills)]
+                else:
+                    skills = [str(skill) for skill in skills]
                 links = portfolio.query_links(skills)
                 email = llm.write_mail(job, links)
                 st.code(email, language='markdown')

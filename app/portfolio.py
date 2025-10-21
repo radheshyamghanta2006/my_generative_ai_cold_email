@@ -19,8 +19,13 @@ class Portfolio:
 
     def query_links(self, skills):
         # Ensure skills is a list of strings
+        if not skills:
+            return []
         if isinstance(skills, str):
             skills = [skills]
         elif not isinstance(skills, list):
             skills = [str(skills)]
+        else:
+            # Convert all items in the list to strings
+            skills = [str(skill) for skill in skills]
         return self.collection.query(query_texts=skills, n_results=2).get('metadatas', [])
